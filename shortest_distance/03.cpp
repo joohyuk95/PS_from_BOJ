@@ -20,7 +20,7 @@ int main()
 {
     ios_base::sync_with_stdio(false);
     int n, p, q, cnt = 0;
-    char a[5];
+    char a[4];
     cin >> n;
     for (int i = 1; i <= n; ++i) {
         for (int j = 0; j < 4; ++j) {
@@ -30,7 +30,7 @@ int main()
         q = alpha2num(a[3]);
         map[p][q] = 1;
     }
-
+    for (int i = 1; i <= 52; ++i) map[i][i] = 1000;     // A => A 와 같은 입력 고려
     for (int k = 1; k <= 52; ++k) {
         for (int i = 1; i <= 52; ++i) {
             for (int j = 1; j <= 52; ++j) {
