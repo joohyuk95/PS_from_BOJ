@@ -9,7 +9,7 @@ int main()
     int n, m, a, b, c;
     cin >> n >> m;
     vector<vector<int> > map(n+1, vector<int> (n+1, INF));
-    vector<vector<int> > copy(n+1, vector<int> (n+1));
+    vector<vector<int> > copy(n+1, vector<int> (n+1, INF));
     for (int i = 1; i <= m; ++i) {
         cin >> a >> b >> c;
         map[a][b] = c;
@@ -33,7 +33,7 @@ int main()
             else {
                 for (int k = 1; k <= n; ++k) {
                     if (i == k) continue;
-                    if (map[i][k] != INF && (map[i][j] == copy[i][k] + map[k][j])) {
+                    if (map[i][j] == copy[i][k] + map[k][j]) {
                         cout << k << ' ';
                         break;
                     }
