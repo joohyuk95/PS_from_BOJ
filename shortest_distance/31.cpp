@@ -1,7 +1,8 @@
 #include <iostream>
+#include <cstdio>
 #include <deque>
 using namespace std;
-char map[101][101];
+int map[101][101];
 int visit[101][101];
 int dx[4] = {0, 1, 0, -1};
 int dy[4] = {-1, 0, 1, 0};
@@ -12,12 +13,11 @@ struct Info {
 
 int main()
 {
-    ios_base::sync_with_stdio(false);
     int m, n;
     cin >> m >> n;
     for (int i = 1; i <= n; ++i) {
         for (int j = 1; j <= m; ++j) {
-            cin >> map[i][j];
+            scanf("%1d", &map[i][j]);
         }
     }
 
@@ -26,16 +26,16 @@ int main()
     visit[1][1] = 1;
     while (!dq.empty()) {
         Info cur = dq.front(); dq.pop_front();
-        int row = cur.y;
-        int col = cur.x;
+        int row = cur.x;
+        int col = cur.y;
         int cnt = cur.cnt;
         if (row == n && col == m) {
             cout << cnt << endl;
             break;
         }
         for (int i = 0; i < 4; ++i) {
-            int nextRow = row + dy[i]; 
-            int nextCol = col + dx[i];
+            int nextRow = row + dx[i]; 
+            int nextCol = col + dy[i];
             if (nextRow < 1 || nextRow > n || nextCol < 1 || nextCol > m) continue;
             if (visit[nextRow][nextCol]) continue;
             
