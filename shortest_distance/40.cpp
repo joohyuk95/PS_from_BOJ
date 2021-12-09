@@ -1,6 +1,7 @@
 // 1. 간선 두 개 이상 가능
 // 2. 맥날, 스벅 같이 있을 수 있음 (집은 같이 있을 수 없음)
 // 3. 집은 무조건 있음
+// 4. 원하는 집이 존재하지 않으면 -1 출력
 
 /*
 꽤나 복잡하니까 알고리즘을 차근차근 적어보자.
@@ -87,7 +88,8 @@ int main()
         map[v].push_back(make_pair(u, w));
     }
     
-    int m, s, x, y;
+    int m, x, s, y;
+    int small = (x < y) ? x : y;
     cin >> m >> x; vector<int> mac(m+1);
     for (int i = 1; i <= m; ++i) cin >> mac[i];
     
@@ -97,16 +99,29 @@ int main()
     for (int i = 1; i <= m; ++i) {
         Dijkstra(mac[i], true);
         for (int j = 1; j <= s; ++j) {
-            Dijkstra(star[j], false);
-            for (int k = 1; k <= v; ++k) {
-                if (dist_m[k] <= x && dist_s[k] <= y) {
-                    res.push({k, x + y});
+            if (mac[i] == star[j]) {
+                for (int k = 1; i <= v; ++k) {
+                    if (dist_m[k] <= small) {
+                        res.push({2 * dist_m[k]});
+                    }
+                }
+            }
+            else {
+                Dijkstra(star[j], false);
+                for (int k = 1; k <= v; ++k) {
+                    if (dist_m[k] <= x && dist_s[k] <= y) {
+                        res.push({k, dist_m[k] + dist_s[k]});
+                    }
                 }
             }
         }
     }
 
     while (true) {
+        if (res.empty()) {
+            cout << -1 << endl;
+            break;
+        }
         int vertex = res.top().node;
         if (isHouse(vertex, mac, star)) {
             cout << res.top().cost << endl;
