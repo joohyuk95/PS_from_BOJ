@@ -22,18 +22,17 @@ void Path_DFS(int start, int end)
 int main()
 {
     ios_base::sync_with_stdio(false);
-    for (int i = 1; i <= 100; ++i) {
-        for (int j = 1; j <= 100; ++j) {
+    int n, m;
+    cin >> n >> m;
+    for (int i = 1; i <= n; ++i) {
+        for (int j = 1; j <= n; ++j) {
             if (i == j) continue;
             else map[i][j] = INF;
         }
     }
-    
-    int n, m;
-    cin >> n >> m;
     for (int i = 1; i <= m; ++i) {
         int a, b, c; cin >> a >> b >> c;
-        map[a][b] = c;
+        map[a][b] = (map[a][b] < c) ? map[a][b] : c;
     }
 
     for (int k = 1; k <= n; ++k) {
@@ -41,32 +40,33 @@ int main()
             for (int j = 1; j <= n; ++j) {
                 if (map[i][j] > map[i][k] + map[k][j]) {
                     map[i][j] = map[i][k] + map[k][j];
-                    // cross[i][j] = k;
+                    cross[i][j] = k;
                 }
             }
         }
     }
     for (int i = 1; i <= n; ++i) {
         for (int j = 1; j <= n; ++j) {
-            cout << map[i][j] << ' ';
+            if (map[i][j] == INF) cout << 0 << ' ';
+            else cout << map[i][j] << ' ';
         }
         cout << '\n';
     }
 
-    // for (int i = 1; i <= n; ++i) {
-    //     for (int j = 1; j <= n; ++j) {
-    //         if (map[i][j] == INF || i == j) cout << 0;
-    //         else {
-    //             path.clear();
-    //             Path_DFS(i, j);
-    //             cout << path.size() << ' ';
-    //             for (int k = 0; k < path.size(); ++k) {
-    //                 cout << path[k] << ' ';
-    //             }
-    //         }
-    //         cout << '\n';
-    //     }        
-    // }
+    for (int i = 1; i <= n; ++i) {
+        for (int j = 1; j <= n; ++j) {
+            if (map[i][j] == INF || i == j) cout << 0;
+            else {
+                path.clear();
+                Path_DFS(i, j);
+                cout << path.size() << ' ';
+                for (int k = 0; k < path.size(); ++k) {
+                    cout << path[k] << ' ';
+                }
+            }
+            cout << '\n';
+        }        
+    }
 
     return 0;
 }
