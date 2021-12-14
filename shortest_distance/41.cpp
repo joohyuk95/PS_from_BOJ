@@ -31,17 +31,16 @@ int main()
         cin >> g_path[i];
     }
     for (int i = 1; i <= m; ++i) {
-        int u, v, l; cin >> u >> v >> l;
-        map[u].push_back(make_pair(v, l));
-        map[v].push_back(make_pair(u, l));
-        weight[u][v] = l;
-        weight[v][u] = l;
+        int u, v, w; cin >> u >> v >> w;
+        map[u].push_back(make_pair(v, w));
+        map[v].push_back(make_pair(u, w));
+        weight[u][v] = w;
+        weight[v][u] = w;
     }
 
     int time = 0;
     for (int i = 1; i < g; ++i) {
-        int u = g_path[i];
-        int v = g_path[i + 1];
+        int u = g_path[i], v = g_path[i + 1];
         int w = weight[u][v];
         control[u][v] = make_pair(time, time + w);
         control[v][u] = control[u][v];
@@ -55,7 +54,7 @@ int main()
         int cost = pq.top().cost;
         pq.pop();
         
-        for (int i = 0 ; i < map[node].size(); ++i) {
+        for (int i = 0; i < map[node].size(); ++i) {
             int nextNode = map[node][i].first;
             int nextCost = map[node][i].second;
             auto C = control[node][nextNode];
