@@ -1,7 +1,3 @@
-// 무방향 가중치 그래프
-// 1번출발
-// 늑대는 여우의 2, 0.5, 2 반복
-// 여우가 늑대보다 먼저 도착할 수 있는 노드 몇 개?
 #include <iostream>
 #include <vector>
 #include <queue>
@@ -71,14 +67,6 @@ void Dijkstra_wolf()
                 if (dist_wolf[state][nextNode] > dist_wolf[state][node] + nextCost) {
                     dist_wolf[state][nextNode] = dist_wolf[state][node] + nextCost;
                     pq.push({nextNode, dist_wolf[state][nextNode], 0});
-                }
-            }
-            else if (state == 0) {
-                int nextNode = map[node][i].first;
-                int nextCost = map[node][i].second * 2;
-                if (dist_wolf[state][nextNode] > dist_wolf[state][node] + nextCost) {
-                    dist_wolf[state][nextNode] = dist_wolf[state][node] + nextCost;
-                    pq.push({nextNode, dist_wolf[state][nextNode], 1});
                 }
             }
         }
