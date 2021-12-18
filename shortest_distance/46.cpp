@@ -6,22 +6,22 @@ using namespace std;
 #define INF 1000000000
 #define MAX 4001
 
-vector<pair<int, int> > map[4001];
-int dist_fox[4001];
-int dist_wolf[4001][2];
+vector<pair<int, int> > map[MAX];
+int dist_fox[MAX];
+int dist_wolf[2][MAX];
 
 class Info {
 public:
     int node, cost;
-    bool operator<(const Info &rhs) const {
-        return this->cost > rhs.cost;
-    }
-};
+    bool state;
 
-class wolf {
-public:
-    int node, cost, state;
-    bool operator<(const wolf &rhs) const {
+    Info(int a, int b, bool c = 0) {
+        this->node = a;
+        this->cost = b;
+        this->state = c;
+    }
+
+    bool operator<(const Info &rhs) const {
         return this->cost > rhs.cost;
     }
 };
@@ -43,7 +43,7 @@ void Dijkstra_fox()
             int nextCost = map[node][i].second;
             if (dist_fox[nextNode] > dist_fox[node] + nextCost) {
                 dist_fox[nextNode] = dist_fox[node] + nextCost;
-                pq.push({dist_fox[nextNode], nextCost});
+                pq.push({nextNode, dist_fox[nextNode]});
             }
         }
     }
@@ -51,32 +51,36 @@ void Dijkstra_fox()
 
 void Dijkstra_wolf()
 {
-    priority_queue<wolf> pq;
-    pq.push({1, 1, 0});
+    priority_queue<Info> pq;
+    pq.push({1, 0, 1});
 
     while (!pq.empty()) {
-        int node = pq.top().node;
-        int cost = pq.top().cost;
-        int state = pq.top().state;
-        pq.pop();
+        auto cur = pq.top(); pq.pop();
+        int node = cur.node;
+        int cost = cur.cost;
+        int state = cur.state;
+        if (dist_wolf[!state][node] < cost) continue;
 
         for (int i = 0; i < map[node].size(); ++i) {
-            if (state == 1) {
-                int nextNode = map[node][i].first;
-                int nextCost = map[node][i].second / 2;
-                if (dist_wolf[state][nextNode] > dist_wolf[state][node] + nextCost) {
-                    dist_wolf[state][nextNode] = dist_wolf[state][node] + nextCost;
-                    pq.push({nextNode, dist_wolf[state][nextNode], 0});
-                }
+            int nextNode = map[node][i].first;
+            int nextCost = map[node][i].second;
+            if (state) nextCost /= 2;
+            else nextCost *= 2;
+                
+            if (dist_wolf[state][nextNode] > cost + nextCost) {
+                dist_wolf[state][nextNode] = cost + nextCost;
+                if (state) pq.push({nextNode, dist_wolf[state][nextNode], !state});
+                else pq.push({nextNode, dist_wolf[state][nextNode], !state});
             }
         }
     }
-
 }
 
 int main()
 {
-    ios_base::sync_with_stdio(false); cin.tie(0);
+    ios_base::sync_with_stdio(false);
+    cin.tie(0);
+    
     int n, m;
     cin >> n >> m;
     for (int i = 1; i <= m; ++i) {
@@ -93,6 +97,14 @@ int main()
     Dijkstra_fox();
     Dijkstra_wolf();
 
+    int cnt = 0;
+    for (int i = 2; i <= n; ++i) {
+        if (dist_fox[i] == INF) continue;
+        if (dist_fox[i] < min(dist_wolf[0][i], dist_wolf[1][i])) {
+            cnt++;
+        }
+    }
+    cout << cnt << endl;
 
     return 0;
 }
