@@ -12,25 +12,14 @@ int dist_wolf[2][MAX];
 
 class Info {
 public:
-<<<<<<< Updated upstream
     int node, cost;
     bool state;
 
     Info(int a, int b, bool c = 0) {
-=======
-    int node, cost, state;
-    
-    Info (int a, int b, int c = 0) {
->>>>>>> Stashed changes
         this->node = a;
         this->cost = b;
         this->state = c;
     }
-<<<<<<< Updated upstream
-
-=======
-    
->>>>>>> Stashed changes
     bool operator<(const Info &rhs) const {
         return this->cost > rhs.cost;
     }
@@ -62,11 +51,7 @@ void Dijkstra_fox()
 void Dijkstra_wolf()
 {
     priority_queue<Info> pq;
-<<<<<<< Updated upstream
     pq.push({1, 0, 1});
-=======
-    pq.push({1, 1, 0});
->>>>>>> Stashed changes
 
     while (!pq.empty()) {
         auto cur = pq.top(); pq.pop();
