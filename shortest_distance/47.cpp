@@ -20,7 +20,7 @@ public:
 
     bool operator<(const Info &rhs) const {
         if (this->step == rhs.step) return this->side > rhs.side;
-        else return this->step > rhs.step;
+        return this->step > rhs.step;
     }
 };
 priority_queue<Info> pq;
@@ -31,12 +31,12 @@ int main()
     int n, m;
     cin >> n >> m;
     for (int i = 1; i <= n; ++i) {
-        for (int j = 1; j <= n; ++j) {
+        for (int j = 1; j <= m; ++j) {
             cin >> map[i][j];
             if (map[i][j] == 'S') {
                 s_row = i;
                 s_col = j;
-            } else if (map[i][j] = 'F') {
+            } else if (map[i][j] == 'F') {
                 e_row = i;
                 e_col = j;
             }
@@ -65,7 +65,7 @@ int main()
                 break;
             }
 
-            if (nrow < 1 || nrow > n || ncol < 1 || ncol > n) continue;
+            if (nrow < 1 || nrow > n || ncol < 1 || ncol > m) continue;
             if (dist[nrow][ncol] != INF) continue;
 
             if (map[nrow][ncol] == 'g') {
@@ -74,7 +74,7 @@ int main()
             else if (map[nrow][ncol] == '.') {
                 bool flag = false;
                 for (int j = 0; j < 4; ++j) {
-                    if (map[nrow + drow[i]][ncol + dcol[i]] == 'g') {
+                    if (map[nrow + drow[j]][ncol + dcol[j]] == 'g') {
                         flag = true;
                         pq.push({nrow, ncol, step, side + 1});
                     }
