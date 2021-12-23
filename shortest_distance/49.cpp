@@ -9,27 +9,34 @@
 
 #include <iostream>
 #include <vector>
-#include <limits.h>
+#include <queue>
 using namespace std;
 
 #define MAX 50
-#define INF -25000000000
+#define INF 25000000000
 
-int n, s, e, m;
+int n, m, s, e;
 
 int earn[MAX];
 bool visit[MAX];
-vector<long long> dist(n+1, LONG_MIN);
+vector<long long> dist(n+1, INF);
 vector<pair<int, int> > map[MAX];
+queue<int> cycleNode;
 
-void DFS(int now)
+bool BFS()  // BFS 어떻게 함?
 {
-    visit[now] = true;
-    for (int i = 0; i < map[now].size(); ++i) {
-        if (visit[map[now][i].first] == false) {
-            DFS(map[now][i].first);
+    while (!cycleNode.empty()) {
+        int cur = cycleNode.front(); cycleNode.pop();
+
+        for (auto x : map[cur]) {
+            int next = x.first;
+            if (visit[next]) continue;
+            visit[next] = true;
+            cycleNode.push(next);
         }
     }
+    if (visit[e]) return true;
+    return false;
 }
 
 int main()
@@ -39,38 +46,32 @@ int main()
 
     for (int i = 0; i < m; ++i) {
         int u, v, w; cin >> u >> v >> w;
-        map[u].push_back({v, -w});
+        map[u].push_back({v, w});
     }
     for (int i = 0; i < n; ++i) {
         cin >> earn[i];
     }
 
-    DFS(s);
-    if (visit[e] == false) {
-        cout << "gg" << endl;
-        return 0;
-    }
-    for (int i = 0; i < n; ++i) {
-        for (int j = 0; j < map[i].size(); ++j) {
-            map[i][j].second += earn[map[i][j].first];
-        }
-    }
-
-    dist[s] = earn[s];
-    for (int i = 1; i <= 2 * n; ++i) {
+    dist[s] = -earn[s];
+    for (int i = 1; i <= 2 * n; ++i) {  /// 왜 2n까지인지
         for (int j = 0; j < n; ++j) {
             for (auto cur : map[j]) {
                 int next = cur.first;
                 long long nextCost = cur.second;
-                if (dist[j] == LONG_MAX) dist[next] = LONG_MAX;
-                else if (dist[j] != LONG_MIN && dist[next] < dist[j] + nextCost) {
-                    dist[next] = dist[j] + nextCost;
-                    if (i >= n) dist[next] = LONG_MAX;
+                if (dist[j] != INF && dist[next] > dist[j] + nextCost - earn[next]) {
+                    dist[next] = dist[j] + nextCost - earn[next];
+                    if (i == n) { // 이게 왜 싸이클 판별인지
+                        visit[j] = true; cycleNode.push(j);
+                    }
                 }
             }
         }
     }
-    if (dist[e] == LONG_MAX) cout << "Gee" << endl;
-    else cout << dist[e] << endl;
+    
+    if (dist[e] == INF) cout << "gg" << endl;
+    else {
+        if (BFS()) cout << "Gee" << endl;
+        else cout << -dist[e] << endl;
+    }
     return 0;
 }
