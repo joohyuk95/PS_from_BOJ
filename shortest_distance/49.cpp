@@ -1,29 +1,20 @@
-// 방향 그래프, 여러번 방문가능 (사이클 가능)
-// 음의 가중치 가능
-// 도시번호 0번부터 n-1까지, n, m <= 50
-// 무한대로 벌 수 있음과 음의 사이클 상관관계
-// 보통은 cost minimizing인데 여기서는 가진 돈을 최대화 하는게 목표임
-// 그래서 earn할수록 이득임.
-// 최소화하려면 가중치는 양의 무한대 였겠으나
-// 여기서는 maximize이므로 음의 무한대로 설정하는 것이 상식적임.
-
 #include <iostream>
 #include <vector>
 #include <queue>
 using namespace std;
 
 #define MAX 50
-#define INF 25000000000
+#define INF 2500000000
 
 int n, m, s, e;
 
 int earn[MAX];
-bool visit[MAX];
-vector<long long> dist(n+1, INF);
+bool visit[MAX] = {false, };
+vector<long long> dist(MAX, INF);
 vector<pair<int, int> > map[MAX];
 queue<int> cycleNode;
 
-bool BFS()  // BFS 어떻게 함?
+bool BFS()  // cycleNode 중에서 도착점으로의 경로가 존재하는지 판단
 {
     while (!cycleNode.empty()) {
         int cur = cycleNode.front(); cycleNode.pop();
@@ -35,7 +26,7 @@ bool BFS()  // BFS 어떻게 함?
             cycleNode.push(next);
         }
     }
-    if (visit[e]) return true;
+    if (visit[e]) return true; // BFS 돌려서 도착점에 방문 표시가 된다면 cycle을 통과하는 경로가 존재하는거임 -> Gee
     return false;
 }
 
@@ -53,25 +44,25 @@ int main()
     }
 
     dist[s] = -earn[s];
-    for (int i = 1; i <= 2 * n; ++i) {  /// 왜 2n까지인지
-        for (int j = 0; j < n; ++j) {
-            for (auto cur : map[j]) {
+    for (int i = 1; i <= n; ++i) {
+        for (int j = 0; j < n; ++j) { // 정점 하나 선택
+            for (auto cur : map[j]) { // 선택된 정점에 연결된 모든 간선
                 int next = cur.first;
                 long long nextCost = cur.second;
-                if (dist[j] != INF && dist[next] > dist[j] + nextCost - earn[next]) {
+                if (dist[j] != INF && dist[next] > dist[j] + nextCost - earn[next]) { // 선택된 정점이 무한대가 아니어야 됨.
                     dist[next] = dist[j] + nextCost - earn[next];
-                    if (i == n) { // 이게 왜 싸이클 판별인지
-                        visit[j] = true; cycleNode.push(j);
+                    if (i == n) { // v-1번 돌리고 v번째라면 위의 if문을 들어왔다는 것이 노드가 업데이트 됨을 의미. 그러므로 cycleNode
+                        visit[j] = true; cycleNode.push(j); // cycleNode들은 방문 표시
                     }
                 }
             }
         }
     }
     
-    if (dist[e] == INF) cout << "gg" << endl;
+    if (dist[e] == INF) cout << "gg" << endl; // 도착할 수 없음. (연결이 안 되어 있음)
     else {
-        if (BFS()) cout << "Gee" << endl;
-        else cout << -dist[e] << endl;
+        if (BFS()) cout << "Gee" << endl; // 도착했는데 가진 돈 무한대 : 음의 사이클을 통과해서 도착가능.
+        else cout << -dist[e] << endl; // 가진 돈 : earn을 -로 표현해서 의미상은 어색하지만 Bellman-Ford에는 적합함.
     }
     return 0;
 }
