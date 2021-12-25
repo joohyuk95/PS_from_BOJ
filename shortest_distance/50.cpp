@@ -20,7 +20,7 @@ public:
     }
 };
 
-bool Dijkstra(long long what)
+bool Dijkstra(long long remain)
 {
     for (int i = 1; i <= n; ++i) dist[i] = INF;
     priority_queue<Info> pq;
@@ -36,7 +36,7 @@ bool Dijkstra(long long what)
         for (auto cur : map[node]) {
             int nextNode = cur.first;
             long long nextCost = cur.second;
-            if (dist[nextNode] > dist[node] + nextCost) {
+            if (remain >= nextCost && dist[nextNode] > dist[node] + nextCost) {
                 dist[nextNode] = dist[node] + nextCost;
                 pq.push({nextNode, dist[nextNode]});
             }
