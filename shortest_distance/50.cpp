@@ -3,7 +3,7 @@
 #include <queue>
 using namespace std;
 
-#define INF 1e14
+#define INF 1e15
 
 int n, m, A, B;
 long long C;
