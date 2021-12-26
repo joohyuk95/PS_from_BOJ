@@ -53,6 +53,7 @@ int main()
         int node = pq.top().node;
         int cost = pq.top().cost;
         pq.pop();
+        if (dist[node] < cost) continue;
         
         for (int i = 0; i < map[node].size(); ++i) {
             int nextNode = map[node][i].first;
