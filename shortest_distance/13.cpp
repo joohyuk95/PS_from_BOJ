@@ -4,6 +4,8 @@ using namespace std;
 
 #define INF 5000000
 
+int dist[501];
+
 class Edge {
 public:
     int s, e, t;
@@ -14,12 +16,13 @@ public:
         this->t = c;
     }
 };
+vector<Edge> Ed;
 
 bool bellmanFord(int n, int m, int w)
 {
     int a, b, c;
-    vector<Edge> Ed;
-    vector<int> dist(n+1, INF);
+    Ed.clear();
+    for (int i = 1; i <= n; ++i) dist[i] = INF;
     for (int i = 1; i <= m; ++i) {
         cin >> a >> b >> c;
         Ed.push_back(Edge(a, b, c));
