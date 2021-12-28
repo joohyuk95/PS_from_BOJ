@@ -24,7 +24,7 @@ int main()
     }
 
     queue<pair<int, int> > Q;
-    queue<int> cnt_Q;
+    priority_queue<int, vector<int>, greater<int>> pq;
     for (int i = 1; i <= n; ++i) {
         for (int j = 1; j <= n; ++j) {
             if (map[i][j]) {                
@@ -38,7 +38,7 @@ int main()
                     for (int k = 0; k < 4; ++k) {
                         int nrow = row + drow[k];
                         int ncol = col + dcol[k];
-                        if (nrow >= MAX || nrow < 1 || ncol >= MAX || ncol < 1) continue;
+                        if (nrow > n || nrow < 1 || ncol > n || ncol < 1) continue;
                         if (map[nrow][ncol]) {
                             Q.push({nrow, ncol});
                             map[nrow][ncol] = 0;
@@ -47,15 +47,15 @@ int main()
                     }
                 }
                 complex_cnt++;
-                cnt_Q.push(house_cnt);
+                pq.push(house_cnt);
             }
         }
     }
 
     cout << complex_cnt << '\n';
-    while (!cnt_Q.empty()) {
-        cout << cnt_Q.front() << '\n';
-        cnt_Q.pop();
+    while (!pq.empty()) {
+        cout << pq.top() << '\n';
+        pq.pop();
     }
     return 0;
 }
