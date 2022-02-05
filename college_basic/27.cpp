@@ -20,6 +20,9 @@ int main()
         if (ma[str] > 1) vt.push_back(str);
     }
     sort(vt.begin(), vt.end());
-
+    cout << vt.size() << '\n';
+    for (auto o : vt) {
+        cout << o << '\n';
+    }
     return 0;
 }
