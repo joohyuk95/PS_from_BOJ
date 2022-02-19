@@ -9,4 +9,4 @@
 * [대학생 기본반](https://www.acmicpc.net/workbook/view/2047) - [풀이](https://github.com/joohyuk95/PS_from_BOJ/tree/main/college_basic)
 
 * [Python 배우기 (1~50)](https://www.acmicpc.net/workbook/view/459) - [풀이](https://github.com/joohyuk95/PS_from_BOJ/tree/main/learning_python_1)
-* [DP 필수 문제](https://www.acmicpc.net/workbook/view/1984) - [풀이](https://github.com/joohyuk95/PS_from_BOJ/tree/main/dp_essential)..
+* [DP 필수 문제](https://www.acmicpc.net/workbook/view/1984) - [풀이](https://github.com/joohyuk95/PS_from_BOJ/tree/main/dp_essential)
