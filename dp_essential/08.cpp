@@ -1,12 +1,29 @@
 #include <iostream>
 using namespace std;
 
-int m, n, cnt;
+int m, n;
 int map[501][501];
 int dp[501][501];
 
 int drow[4] = {-1, 0, 1, 0};
 int dcol[4] = {0, 1, 0, -1};
+
+int DFS(int row, int col)
+{
+    if (row == m && col == n) return 1;
+    if (dp[row][col] != -1) return dp[row][col];
+
+    dp[row][col] = 0;
+    for (int i = 0; i < 4; ++i) {
+        int nrow = row + drow[i];
+        int ncol = col + dcol[i];
+        if (nrow < 1 || nrow > m || ncol < 1 || ncol > n) continue;
+        if (map[nrow][ncol] < map[row][col]) {
+            dp[row][col] += DFS(nrow, ncol);
+        }
+    }
+    return dp[row][col];
+}
 
 int main()
 {
@@ -14,31 +31,11 @@ int main()
     cin >> m >> n;
     for (int i = 1; i <= m; ++i) {
         for (int j = 1; j <= n; ++j) {
-            cin >> map[m][n];
+            dp[i][j] = -1;
+            cin >> map[i][j];
         }
     }
 
-    dp[1][1] = 1;
-    for (int i = 1; i <= m; ++i) {
-        for (int j = 1; j <= n; ++j) {
-            for (int k = 0; k < 4; ++k) {
-                int nrow = i + drow[k];
-                int ncol = j + dcol[k];
-                if (ncol == 0 || nrow == 0) continue;
-                if (i == m && j == n) break;
-                if (map[nrow][ncol] < map[i][j]) {
-                    dp[nrow][ncol] += dp[i][j];
-                }
-            }
-        }
-    }
-
-    for (int i = 1; i <= m; ++i) {
-        for (int j = 1; j <= n; ++j) {
-            cout << dp[i][j] << ' ';
-        }
-        cout << '\n';
-    }
-    cout << dp[m][n] << '\n';
+    cout << DFS(1, 1) << '\n';
     return 0;
 }
