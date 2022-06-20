@@ -12,3 +12,5 @@
 * [DP 필수 문제](https://www.acmicpc.net/workbook/view/1984) - [풀이](https://github.com/joohyuk95/PS_from_BOJ/tree/main/dp_essential)
 
 * [중급](https://www.acmicpc.net/workbook/view/2034) - [풀이](https://github.com/joohyuk95/PS_from_BOJ/tree/main/intermediate)
+
+* [코딩 테스트 대비 문제집](https://www.acmicpc.net/workbook/view/6152) - [풀이](https://github.com/joohyuk95/PS_from_BOJ/tree/main/coding_test)
