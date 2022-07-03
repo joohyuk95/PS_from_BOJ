@@ -14,3 +14,5 @@
 * [중급](https://www.acmicpc.net/workbook/view/2034) - [풀이](https://github.com/joohyuk95/PS_from_BOJ/tree/main/intermediate)
 
 * [코딩 테스트 대비 문제집](https://www.acmicpc.net/workbook/view/6152) - [풀이](https://github.com/joohyuk95/PS_from_BOJ/tree/main/coding_test)
+
+* [중급 2](https://www.acmicpc.net/workbook/view/2035) - [풀이](https://github.com/joohyuk95/PS_from_BOJ/tree/main/intermediate_2)
